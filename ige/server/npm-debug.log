@@ -1,0 +1,299 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'G:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'G:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'update' ]
+2 info using npm@3.3.12
+3 info using node@v5.1.1
+4 silly mapToRegistry name easyimage
+5 silly mapToRegistry using default registry
+6 silly mapToRegistry registry https://registry.npmjs.org/
+7 silly mapToRegistry uri https://registry.npmjs.org/easyimage
+8 silly mapToRegistry name mongodb
+9 silly mapToRegistry using default registry
+10 silly mapToRegistry registry https://registry.npmjs.org/
+11 silly mapToRegistry uri https://registry.npmjs.org/mongodb
+12 silly mapToRegistry name mysql
+13 silly mapToRegistry using default registry
+14 silly mapToRegistry registry https://registry.npmjs.org/
+15 silly mapToRegistry uri https://registry.npmjs.org/mysql
+16 silly mapToRegistry name net.io-server
+17 silly mapToRegistry using default registry
+18 silly mapToRegistry registry https://registry.npmjs.org/
+19 silly mapToRegistry uri https://registry.npmjs.org/net.io-server
+20 silly mapToRegistry name node-arguments
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/node-arguments
+24 silly mapToRegistry name socket.io
+25 silly mapToRegistry using default registry
+26 silly mapToRegistry registry https://registry.npmjs.org/
+27 silly mapToRegistry uri https://registry.npmjs.org/socket.io
+28 silly mapToRegistry name uglify-js2
+29 silly mapToRegistry using default registry
+30 silly mapToRegistry registry https://registry.npmjs.org/
+31 silly mapToRegistry uri https://registry.npmjs.org/uglify-js2
+32 verbose request uri https://registry.npmjs.org/net.io-server
+33 verbose request no auth needed
+34 info attempt registry request try #1 at 01:58:02
+35 verbose request id f20cefca33ed2eb7
+36 http request GET https://registry.npmjs.org/net.io-server
+37 verbose request uri https://registry.npmjs.org/easyimage
+38 verbose request no auth needed
+39 info attempt registry request try #1 at 01:58:02
+40 verbose etag "E04OTOTCLLV053SKBML41W6RX"
+41 http request GET https://registry.npmjs.org/easyimage
+42 verbose request uri https://registry.npmjs.org/node-arguments
+43 verbose request no auth needed
+44 info attempt registry request try #1 at 01:58:02
+45 verbose etag "6XD05F9DUCRW4AF1VXXUQUWQ2"
+46 http request GET https://registry.npmjs.org/node-arguments
+47 verbose request uri https://registry.npmjs.org/mysql
+48 verbose request no auth needed
+49 info attempt registry request try #1 at 01:58:02
+50 verbose etag "3GI9THBCI04K8G69LSVDN55MO"
+51 http request GET https://registry.npmjs.org/mysql
+52 verbose request uri https://registry.npmjs.org/socket.io
+53 verbose request no auth needed
+54 info attempt registry request try #1 at 01:58:02
+55 verbose etag "DA2NZ1PRSX2YYX31MN7PF8G2"
+56 http request GET https://registry.npmjs.org/socket.io
+57 verbose request uri https://registry.npmjs.org/mongodb
+58 verbose request no auth needed
+59 info attempt registry request try #1 at 01:58:02
+60 verbose etag "3LAZWIJPZWDCZSXMIFJN1OFWX"
+61 http request GET https://registry.npmjs.org/mongodb
+62 verbose request uri https://registry.npmjs.org/uglify-js2
+63 verbose request no auth needed
+64 info attempt registry request try #1 at 01:58:02
+65 verbose etag "9K9Z0U1P802J5E1XEHUT363NX"
+66 http request GET https://registry.npmjs.org/uglify-js2
+67 http 200 https://registry.npmjs.org/mysql
+68 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+68 verbose headers   etag: '"F05V4CJ1TBFHXNP097DAJUPSH"',
+68 verbose headers   'content-type': 'application/json',
+68 verbose headers   'cache-control': 'max-age=60',
+68 verbose headers   'content-length': '117190',
+68 verbose headers   'accept-ranges': 'bytes',
+68 verbose headers   date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+68 verbose headers   via: '1.1 varnish',
+68 verbose headers   age: '48',
+68 verbose headers   connection: 'keep-alive',
+68 verbose headers   'x-served-by': 'cache-lhr6328-LHR',
+68 verbose headers   'x-cache': 'HIT',
+68 verbose headers   'x-cache-hits': '1',
+68 verbose headers   'x-timer': 'S1449536281.962421,VS0,VE1',
+68 verbose headers   vary: 'Accept' }
+69 silly get cb [ 200,
+69 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+69 silly get     etag: '"F05V4CJ1TBFHXNP097DAJUPSH"',
+69 silly get     'content-type': 'application/json',
+69 silly get     'cache-control': 'max-age=60',
+69 silly get     'content-length': '117190',
+69 silly get     'accept-ranges': 'bytes',
+69 silly get     date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+69 silly get     via: '1.1 varnish',
+69 silly get     age: '48',
+69 silly get     connection: 'keep-alive',
+69 silly get     'x-served-by': 'cache-lhr6328-LHR',
+69 silly get     'x-cache': 'HIT',
+69 silly get     'x-cache-hits': '1',
+69 silly get     'x-timer': 'S1449536281.962421,VS0,VE1',
+69 silly get     vary: 'Accept' } ]
+70 verbose get saving mysql to C:\Users\danidomen\AppData\Roaming\npm-cache\registry.npmjs.org\mysql\.cache.json
+71 http 200 https://registry.npmjs.org/socket.io
+72 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+72 verbose headers   etag: '"7MNYZ1E6LQXQVGLOXYUAFKMW6"',
+72 verbose headers   'content-type': 'application/json',
+72 verbose headers   'cache-control': 'max-age=60',
+72 verbose headers   'content-length': '115824',
+72 verbose headers   'accept-ranges': 'bytes',
+72 verbose headers   date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+72 verbose headers   via: '1.1 varnish',
+72 verbose headers   age: '40',
+72 verbose headers   connection: 'keep-alive',
+72 verbose headers   'x-served-by': 'cache-lhr6325-LHR',
+72 verbose headers   'x-cache': 'HIT',
+72 verbose headers   'x-cache-hits': '1',
+72 verbose headers   'x-timer': 'S1449536281.968757,VS0,VE0',
+72 verbose headers   vary: 'Accept' }
+73 silly get cb [ 200,
+73 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+73 silly get     etag: '"7MNYZ1E6LQXQVGLOXYUAFKMW6"',
+73 silly get     'content-type': 'application/json',
+73 silly get     'cache-control': 'max-age=60',
+73 silly get     'content-length': '115824',
+73 silly get     'accept-ranges': 'bytes',
+73 silly get     date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+73 silly get     via: '1.1 varnish',
+73 silly get     age: '40',
+73 silly get     connection: 'keep-alive',
+73 silly get     'x-served-by': 'cache-lhr6325-LHR',
+73 silly get     'x-cache': 'HIT',
+73 silly get     'x-cache-hits': '1',
+73 silly get     'x-timer': 'S1449536281.968757,VS0,VE0',
+73 silly get     vary: 'Accept' } ]
+74 verbose get saving socket.io to C:\Users\danidomen\AppData\Roaming\npm-cache\registry.npmjs.org\socket.io\.cache.json
+75 http 304 https://registry.npmjs.org/easyimage
+76 verbose headers { date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+76 verbose headers   via: '1.1 varnish',
+76 verbose headers   'cache-control': 'max-age=60',
+76 verbose headers   etag: '"E04OTOTCLLV053SKBML41W6RX"',
+76 verbose headers   age: '0',
+76 verbose headers   connection: 'keep-alive',
+76 verbose headers   'x-served-by': 'cache-lhr6323-LHR',
+76 verbose headers   'x-cache': 'MISS',
+76 verbose headers   'x-cache-hits': '0',
+76 verbose headers   'x-timer': 'S1449536281.971141,VS0,VE175',
+76 verbose headers   vary: 'Accept' }
+77 silly get cb [ 304,
+77 silly get   { date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+77 silly get     via: '1.1 varnish',
+77 silly get     'cache-control': 'max-age=60',
+77 silly get     etag: '"E04OTOTCLLV053SKBML41W6RX"',
+77 silly get     age: '0',
+77 silly get     connection: 'keep-alive',
+77 silly get     'x-served-by': 'cache-lhr6323-LHR',
+77 silly get     'x-cache': 'MISS',
+77 silly get     'x-cache-hits': '0',
+77 silly get     'x-timer': 'S1449536281.971141,VS0,VE175',
+77 silly get     vary: 'Accept' } ]
+78 verbose etag https://registry.npmjs.org/easyimage from cache
+79 verbose get saving easyimage to C:\Users\danidomen\AppData\Roaming\npm-cache\registry.npmjs.org\easyimage\.cache.json
+80 http 200 https://registry.npmjs.org/mongodb
+81 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+81 verbose headers   etag: '"1BD9SNTHS890SBWJ51S1NKYWN"',
+81 verbose headers   'content-type': 'application/json',
+81 verbose headers   'cache-control': 'max-age=60',
+81 verbose headers   'content-length': '492773',
+81 verbose headers   'accept-ranges': 'bytes',
+81 verbose headers   date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+81 verbose headers   via: '1.1 varnish',
+81 verbose headers   age: '52',
+81 verbose headers   connection: 'keep-alive',
+81 verbose headers   'x-served-by': 'cache-lhr6321-LHR',
+81 verbose headers   'x-cache': 'HIT',
+81 verbose headers   'x-cache-hits': '1',
+81 verbose headers   'x-timer': 'S1449536281.964339,VS0,VE1',
+81 verbose headers   vary: 'Accept' }
+82 silly get cb [ 200,
+82 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+82 silly get     etag: '"1BD9SNTHS890SBWJ51S1NKYWN"',
+82 silly get     'content-type': 'application/json',
+82 silly get     'cache-control': 'max-age=60',
+82 silly get     'content-length': '492773',
+82 silly get     'accept-ranges': 'bytes',
+82 silly get     date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+82 silly get     via: '1.1 varnish',
+82 silly get     age: '52',
+82 silly get     connection: 'keep-alive',
+82 silly get     'x-served-by': 'cache-lhr6321-LHR',
+82 silly get     'x-cache': 'HIT',
+82 silly get     'x-cache-hits': '1',
+82 silly get     'x-timer': 'S1449536281.964339,VS0,VE1',
+82 silly get     vary: 'Accept' } ]
+83 verbose get saving mongodb to C:\Users\danidomen\AppData\Roaming\npm-cache\registry.npmjs.org\mongodb\.cache.json
+84 http 404 https://registry.npmjs.org/net.io-server
+85 verbose headers { 'content-type': 'application/json',
+85 verbose headers   'cache-control': 'max-age=0',
+85 verbose headers   'content-length': '2',
+85 verbose headers   'accept-ranges': 'bytes',
+85 verbose headers   date: 'Tue, 08 Dec 2015 00:58:02 GMT',
+85 verbose headers   via: '1.1 varnish',
+85 verbose headers   age: '0',
+85 verbose headers   connection: 'keep-alive',
+85 verbose headers   'x-served-by': 'cache-lhr6332-LHR',
+85 verbose headers   'x-cache': 'MISS',
+85 verbose headers   'x-cache-hits': '0',
+85 verbose headers   'x-timer': 'S1449536281.967179,VS0,VE617' }
+86 silly get cb [ 404,
+86 silly get   { 'content-type': 'application/json',
+86 silly get     'cache-control': 'max-age=0',
+86 silly get     'content-length': '2',
+86 silly get     'accept-ranges': 'bytes',
+86 silly get     date: 'Tue, 08 Dec 2015 00:58:02 GMT',
+86 silly get     via: '1.1 varnish',
+86 silly get     age: '0',
+86 silly get     connection: 'keep-alive',
+86 silly get     'x-served-by': 'cache-lhr6332-LHR',
+86 silly get     'x-cache': 'MISS',
+86 silly get     'x-cache-hits': '0',
+86 silly get     'x-timer': 'S1449536281.967179,VS0,VE617' } ]
+87 http 304 https://registry.npmjs.org/node-arguments
+88 verbose headers { date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+88 verbose headers   via: '1.1 varnish',
+88 verbose headers   'cache-control': 'max-age=60',
+88 verbose headers   etag: '"6XD05F9DUCRW4AF1VXXUQUWQ2"',
+88 verbose headers   age: '0',
+88 verbose headers   connection: 'keep-alive',
+88 verbose headers   'x-served-by': 'cache-lhr6331-LHR',
+88 verbose headers   'x-cache': 'MISS',
+88 verbose headers   'x-cache-hits': '0',
+88 verbose headers   'x-timer': 'S1449536281.968643,VS0,VE622',
+88 verbose headers   vary: 'Accept' }
+89 silly get cb [ 304,
+89 silly get   { date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+89 silly get     via: '1.1 varnish',
+89 silly get     'cache-control': 'max-age=60',
+89 silly get     etag: '"6XD05F9DUCRW4AF1VXXUQUWQ2"',
+89 silly get     age: '0',
+89 silly get     connection: 'keep-alive',
+89 silly get     'x-served-by': 'cache-lhr6331-LHR',
+89 silly get     'x-cache': 'MISS',
+89 silly get     'x-cache-hits': '0',
+89 silly get     'x-timer': 'S1449536281.968643,VS0,VE622',
+89 silly get     vary: 'Accept' } ]
+90 verbose etag https://registry.npmjs.org/node-arguments from cache
+91 verbose get saving node-arguments to C:\Users\danidomen\AppData\Roaming\npm-cache\registry.npmjs.org\node-arguments\.cache.json
+92 http 304 https://registry.npmjs.org/uglify-js2
+93 verbose headers { date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+93 verbose headers   via: '1.1 varnish',
+93 verbose headers   'cache-control': 'max-age=60',
+93 verbose headers   etag: '"9K9Z0U1P802J5E1XEHUT363NX"',
+93 verbose headers   age: '0',
+93 verbose headers   connection: 'keep-alive',
+93 verbose headers   'x-served-by': 'cache-lhr6323-LHR',
+93 verbose headers   'x-cache': 'MISS',
+93 verbose headers   'x-cache-hits': '0',
+93 verbose headers   'x-timer': 'S1449536281.977193,VS0,VE836',
+93 verbose headers   vary: 'Accept' }
+94 silly get cb [ 304,
+94 silly get   { date: 'Tue, 08 Dec 2015 00:58:01 GMT',
+94 silly get     via: '1.1 varnish',
+94 silly get     'cache-control': 'max-age=60',
+94 silly get     etag: '"9K9Z0U1P802J5E1XEHUT363NX"',
+94 silly get     age: '0',
+94 silly get     connection: 'keep-alive',
+94 silly get     'x-served-by': 'cache-lhr6323-LHR',
+94 silly get     'x-cache': 'MISS',
+94 silly get     'x-cache-hits': '0',
+94 silly get     'x-timer': 'S1449536281.977193,VS0,VE836',
+94 silly get     vary: 'Accept' } ]
+95 verbose etag https://registry.npmjs.org/uglify-js2 from cache
+96 verbose get saving uglify-js2 to C:\Users\danidomen\AppData\Roaming\npm-cache\registry.npmjs.org\uglify-js2\.cache.json
+97 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/net.io-server
+97 verbose stack     at makeError (G:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:264:12)
+97 verbose stack     at CachingRegistryClient.<anonymous> (G:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:242:14)
+97 verbose stack     at Request._callback (G:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:172:14)
+97 verbose stack     at Request.self.callback (G:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:198:22)
+97 verbose stack     at emitTwo (events.js:87:13)
+97 verbose stack     at Request.emit (events.js:172:7)
+97 verbose stack     at Request.<anonymous> (G:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1082:10)
+97 verbose stack     at emitOne (events.js:82:20)
+97 verbose stack     at Request.emit (events.js:169:7)
+97 verbose stack     at IncomingMessage.<anonymous> (G:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1009:12)
+98 verbose statusCode 404
+99 verbose pkgid net.io-server
+100 verbose cwd D:\xampp\htdocs\wanderer\ige\server
+101 error Windows_NT 6.3.9600
+102 error argv "G:\\Program Files\\nodejs\\node.exe" "G:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "update"
+103 error node v5.1.1
+104 error npm  v3.3.12
+105 error code E404
+106 error 404 Registry returned 404 for GET on https://registry.npmjs.org/net.io-server
+106 error 404
+106 error 404 'net.io-server' is not in the npm registry.
+106 error 404 You should bug the author to publish it (or use the name yourself!)
+106 error 404
+106 error 404 Note that you can also install from a
+106 error 404 tarball, folder, http url, or git url.
+107 verbose exit [ 1, true ]
