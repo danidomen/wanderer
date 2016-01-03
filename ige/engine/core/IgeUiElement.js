@@ -1,9 +1,3 @@
-/**
- * Creates a new UI element. UI elements use more resources and CPU
- * than standard IgeEntity instances but provide a rich set of extra
- * positioning and styling methods as well as reacting to styles
- * defined using the IgeUiManagerComponent.
- */
 var IgeUiElement = IgeUiEntity.extend({
 	classId: 'IgeUiElement',
 
@@ -127,35 +121,14 @@ var IgeUiElement = IgeUiEntity.extend({
 	_updateStyle: function () {
 		// Apply styles in order of class, class:focus, class:hover, class:active,
 		// id, id:focus, id:hover, id:active
+		//this.log('Processing styles for ' + this._id);
 		this._processStyle(this._classId);
 		this._processStyle(this._styleClass);
 		this._processStyle('#' + this._id);
-		
-		if (this._focused) {
-			this._processStyle(this._classId, 'focus');
-			this._processStyle(this._styleClass, 'focus');
-			this._processStyle('#' + this._id, 'focus');
-		}
-		
-		if (this._mouseStateOver) {
-			this._processStyle(this._classId, 'hover');
-			this._processStyle(this._styleClass, 'hover');
-			this._processStyle('#' + this._id, 'hover');
-		}
-		
-		if (this._mouseStateDown) {
-			this._processStyle(this._classId, 'active');
-			this._processStyle(this._styleClass, 'active');
-			this._processStyle('#' + this._id, 'active');
-		}
 	},
 	
-	_processStyle: function (styleName, state) {
+	_processStyle: function (styleName) {
 		if (styleName) {
-			if (state) {
-				styleName += ':' + state;
-			}
-			
 			//this.log('Checking for styles with selector: ' + styleName);
 			
 			// Basic
@@ -163,6 +136,36 @@ var IgeUiElement = IgeUiEntity.extend({
 			if (styleData) {
 				//this.log('Applying styles with selector "' + styleName + '"');
 				this.applyStyle(styleData);
+			}
+			
+			// Focus
+			if (this._focused) {
+				//this.log('Checking for styles with selector: ' + styleName + ':focus');
+				styleData = ige.ui.style(styleName + ':focus');
+				if (styleData) {
+					//this.log('Applying styles with selector "' + styleName + ':focus' + '"');
+					this.applyStyle(styleData);
+				}
+			}
+			
+			// Hover
+			if (this._mouseStateOver) {
+				//this.log('Checking for styles with selector: ' + styleName + ':hover');
+				styleData = ige.ui.style(styleName + ':hover');
+				if (styleData) {
+					//this.log('Applying styles with selector "' + styleName + ':hover' + '"');
+					this.applyStyle(styleData);
+				}
+			}
+			
+			// Active
+			if (this._mouseStateDown) {
+				//this.log('Checking for styles with selector: ' + styleName + ':active');
+				styleData = ige.ui.style(styleName + ':active');
+				if (styleData) {
+					//this.log('Applying styles with selector "' + styleName + ':active' + '"');
+					this.applyStyle(styleData);
+				}
 			}
 		}
 	},
@@ -194,9 +197,7 @@ var IgeUiElement = IgeUiEntity.extend({
 	 *             'padding': [10, 10, 10, 10] // Set padding using multiple values
 	 *         });
 	 * 
-	 * @param {Object} styleData The style object to apply. This object should
-	 * contain key/value pairs where the key matches a method name and the value
-	 * is the parameter to pass it.
+	 * @param styleData
 	 */
 	applyStyle: function (styleData) {
 		var args;
@@ -248,15 +249,6 @@ var IgeUiElement = IgeUiEntity.extend({
 	
 	focused: function () {
 		return this._focused;
-	},
-	
-	value: function (val) {
-		if (val !== undefined) {
-			this._value = val;
-			return this;
-		}
-		
-		return this._value;
 	},
 	
 	_mounted: function () {

@@ -1,10 +1,10 @@
-var IgeUiButton = IgeUiElement.extend({
+var IgeUiButton = IgeUiEntity.extend({
 	classId: 'IgeUiButton',
 	
 	init: function () {
 		var self = this;
 		
-		IgeUiElement.prototype.init.call(this);
+		IgeUiEntity.prototype.init.call(this);
 		
 		this.on('mouseDown', function () {
 			if (self._autoCell) {
@@ -56,11 +56,9 @@ var IgeUiButton = IgeUiElement.extend({
 	},
 	
 	tick: function (ctx) {
-		IgeUiElement.prototype.tick.call(this, ctx);
+		IgeUiEntity.prototype.tick.call(this, ctx);
 		
 		// Now draw any ui overlays
-		
-		// Check for the old way to assign text to the button
 		var uiData = this.data('ui');
 		if (uiData) {
 			// Draw text
@@ -71,15 +69,6 @@ var IgeUiButton = IgeUiElement.extend({
 				ctx.fillStyle = uiData['text'].color || '#ffffff';
 				ctx.fillText(uiData['text'].value, 0, 0);
 			}
-		}
-		
-		// Check for the new way to assign text to the button
-		if (this._value) {
-			// Draw text
-			ctx.textAlign = 'center';
-			ctx.textBaseline = 'middle';
-			ctx.fillStyle = this._color;
-			ctx.fillText(this._value, 0, 0);
 		}
 	}
 });

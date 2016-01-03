@@ -82,7 +82,7 @@ var IgeTimeSyncExtension = {
 			roundTrip,
 			direction;
 
-		if (ige.isClient) {
+		if (!ige.isServer) {
 			sendTime = parseInt(data, 10);
 
 			this._latency = localTime - sendTime;

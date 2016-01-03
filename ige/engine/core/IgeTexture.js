@@ -16,9 +16,9 @@ var IgeTexture = IgeEventingClass.extend({
 		this._loaded = false;
 		
 		/* CEXCLUDE */
-		// If on a server, error
+		// If on a server, import the relevant libraries
 		if (ige.isServer) {
-			this.log('Cannot create a texture on the server. Textures are only client-side objects. Please alter your code so that you don\'t try to load a texture on the server-side using something like an if statement around your texture laoding such as "if (ige.isClient) {}".', 'error');
+			this.log('Cannot create a texture on the server. Textures are only client-side objects. Please alter your code so that you don\'t try to load a texture on the server-side using something like an if statement around your texture laoding such as "if (!ige.isServer) {}".', 'error');
 			return this;
 		}
 		/* CEXCLUDE */
@@ -59,11 +59,6 @@ var IgeTexture = IgeEventingClass.extend({
 		if (id !== undefined) {
 			// Check if this ID already exists in the object register
 			if (ige._register[id]) {
-				if (ige._register[id] === this) {
-					// We are already registered as this id
-					return this;
-				}
-				
 				// Already an object with this ID!
 				this.log('Cannot set ID of object to "' + id + '" because that ID is already in use by another object!', 'error');
 			} else {
@@ -133,7 +128,7 @@ var IgeTexture = IgeEventingClass.extend({
 		var image,
 			self = this;
 
-		if (ige.isClient) {
+		if (!ige.isServer) {
 			// Increment the texture load count
 			ige.textureLoadStart(imageUrl, this);
 
@@ -246,7 +241,7 @@ var IgeTexture = IgeEventingClass.extend({
 
 		ige.textureLoadStart(scriptUrl, this);
 
-		if (ige.isClient) {
+		if (!ige.isServer) {
 			scriptElem = document.createElement('script');
 			scriptElem.onload = function(data) {
 				self.log('Texture script "' + scriptUrl + '" loaded successfully');
@@ -291,29 +286,24 @@ var IgeTexture = IgeEventingClass.extend({
 			rs_sandboxContext,
 			self = this,
 			scriptElem;
-		
-		// Check the object has a render method
-		if (typeof(scriptObj.render) === 'function') {
-			//ige.textureLoadStart(scriptUrl, this);
-	
-			// Store the script data
-			self._mode = 1;
-			self.script = scriptObj;
-	
-			// Run the asset script init method
-			if (typeof(scriptObj.init) === 'function') {
-				scriptObj.init.apply(scriptObj, [self]);
-			}
-	
-			//self.sizeX(image.width);
-			//self.sizeY(image.height);
-	
-			self._loaded = true;
-			self.emit('loaded');
-			//ige.textureLoadEnd(scriptUrl, self);
-		} else {
-			this.log('Cannot assign smart texture because it doesn\'t have a render() method!', 'error');
+
+		//ige.textureLoadStart(scriptUrl, this);
+
+		// Store the script data
+		self._mode = 1;
+		self.script = scriptObj;
+
+		// Run the asset script init method
+		if (typeof(scriptObj.init) === 'function') {
+			scriptObj.init.apply(scriptObj, [self]);
 		}
+
+		//self.sizeX(image.width);
+		//self.sizeY(image.height);
+
+		self._loaded = true;
+		self.emit('loaded');
+		//ige.textureLoadEnd(scriptUrl, self);
 	},
 
 	/**
@@ -329,7 +319,7 @@ var IgeTexture = IgeEventingClass.extend({
 		var image,
 			self = this;
 
-		if (ige.isClient) {
+		if (!ige.isServer) {
 			// Create the image object
 			image = this.image = this._originalImage = imageElement;
 			image._igeTextures = image._igeTextures || [];
@@ -623,7 +613,7 @@ var IgeTexture = IgeEventingClass.extend({
 			if (this._mode === 0) {
 				// This texture is image-based
 				var cell = this._cells[entity._cell],
-					geom = entity._bounds2d,
+					geom = entity._geometry,
 					poly = entity._renderPos; // Render pos is calculated in the IgeEntity.aabb() method
 
 				if (cell) {

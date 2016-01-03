@@ -18,7 +18,6 @@ var IgeNetIoComponent = IgeEventingClass.extend([
 		this._debug = false;
 		this._debugCounter = 0;
 		this._debugMax = 0;
-		this._clientRooms = {};
 
 		// Time sync defaults
 		this._timeSyncInterval = 10000; // Sync the client/server clocks every ten seconds by default
@@ -33,7 +32,7 @@ var IgeNetIoComponent = IgeEventingClass.extend([
 		}
 		/* CEXCLUDE */
 
-		if (ige.isClient) {
+		if (!ige.isServer) {
 			this._netio = IgeNetIoClient;
 			this.implement(IgeNetIoClient);
 		}

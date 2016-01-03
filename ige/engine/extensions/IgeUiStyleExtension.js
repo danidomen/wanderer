@@ -1,21 +1,6 @@
 // TODO: Add "overflow" with automatic scroll-bars
 var IgeUiStyleExtension = {
 	/**
-	 * Gets / sets the color to use as the font color.
-	 * @param {CSSColor, CanvasGradient, CanvasPattern=} color
-	 * @return {*} Returns this when setting the value or the current value if none is specified.
-	 */
-	color: function (color) {
-		if (color !== undefined) {
-			this._color = color;
-			this.cacheDirty(true);
-			return this;
-		}
-
-		return this._color;
-	},
-	
-	/**
 	 * Sets the current background texture and the repeatType
 	 * to determine in which axis the image should be repeated.
 	 * @param {IgeTexture=} texture
@@ -83,38 +68,18 @@ var IgeUiStyleExtension = {
 
 	backgroundSize: function (x, y) {
 		if (x !== undefined && y !== undefined) {
-
-			if (typeof(x) === 'string' && x !== 'auto') {
+			if (typeof(x) === 'string') {
 				// Work out the actual size in pixels
 				// from the percentage
-				x = this._bounds2d.x / 100 * parseInt(x, 10);
+				x = this._geometry.x / 100 * parseInt(x, 10);
 			}
 
-			if (typeof(y) === 'string' && y !== 'auto') {
+			if (typeof(y) === 'string') {
 				// Work out the actual size in pixels
 				// from the percentage
-				y = this._bounds2d.y / 100 * parseInt(y, 10);
+				y = this._geometry.y / 100 * parseInt(y, 10);
 			}
-
-			if (x === 'auto' && y === 'auto') {
-				this.log('Cannot set background x and y both to auto!', 'error');
-				return this;
-			} else if(x === 'auto') {
-				if(this._patternTexture && this._patternTexture.image) {
-					// find out y change and apply it to the x
-					x = this._patternTexture.image.width * (y / this._patternTexture.image.height);
-				} else {
-					x = this._bounds2d.x * (y / this._bounds2d.y);
-				}
-			} else if(y === 'auto') {
-				if(this._patternTexture && this._patternTexture.image) {
-					// find out x change and apply it to the y
-					y = this._patternTexture.image.height * (x / this._patternTexture.image.width);
-				} else {
-					y = this._bounds2d.y * (x / this._bounds2d.x);
-				}
-			}
-
+			
 			if (x !== 0 && y !== 0) {
 				this._backgroundSize = {x: x, y: y};
 	

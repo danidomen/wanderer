@@ -36,7 +36,7 @@ var IgeStreamComponent = IgeEventingClass.extend({
 		}
 		/* CEXCLUDE */
 
-		if (ige.isClient) {
+		if (!ige.isServer) {
 			// Define the network stream command
 			this._entity.define('_igeStreamCreate', function () { self._onStreamCreate.apply(self, arguments); });
 			this._entity.define('_igeStreamDestroy', function () { self._onStreamDestroy.apply(self, arguments); });
@@ -115,9 +115,9 @@ var IgeStreamComponent = IgeEventingClass.extend({
 
 	/**
 	 * Queues stream data to be sent during the next stream data interval.
-	 * @param {String} id The id of the entity that this data belongs to.
-	 * @param {String} data The data queued for delivery to the client.
-	 * @param {String} clientId The client id this data is queued for.
+	 * @param id
+	 * @param data
+	 * @param clientId
 	 * @return {*}
 	 */
 	queue: function (id, data, clientId) {

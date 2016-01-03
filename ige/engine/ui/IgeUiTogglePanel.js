@@ -1,8 +1,8 @@
-var IgeUiTogglePanel = IgeUiElement.extend({
+var IgeUiTogglePanel = IgeUiEntity.extend({
 	classId: 'IgeUiTogglePanel',
 
 	init: function (title, titleTexture, toggleOffTexture, toggleOnTexture) {
-		IgeUiElement.prototype.init.call(this);
+		IgeUiEntity.prototype.init.call(this);
 
 		this.backgroundColor('#222222');
 
@@ -11,7 +11,7 @@ var IgeUiTogglePanel = IgeUiElement.extend({
 		this._toggleOffTexture = toggleOffTexture;
 		this._toggleOnTexture = toggleOnTexture;
 
-		this._panelImage = new IgeUiElement()
+		this._panelImage = new IgeUiEntity()
 			.id('panelImage')
 			.texture(toggleOffTexture)
 			.left(5)

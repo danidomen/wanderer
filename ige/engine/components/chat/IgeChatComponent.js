@@ -24,7 +24,7 @@ var IgeChatComponent = IgeEventingClass.extend({
         }
         /* CEXCLUDE */
 
-        if (ige.isClient) {
+        if (!ige.isServer) {
             this.implement(IgeChatClient);
 
             // Define the chat system network command listeners

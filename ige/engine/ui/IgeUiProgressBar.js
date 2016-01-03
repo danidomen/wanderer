@@ -1,15 +1,17 @@
 // TODO: Document this class
-var IgeUiProgressBar = IgeUiElement.extend({
+var IgeUiProgressBar = IgeUiEntity.extend({
 	classId: 'IgeUiProgressBar',
 
 	init: function () {
-		IgeUiElement.prototype.init.call(this);
+		IgeUiEntity.prototype.init.call(this);
 
 		// Set some defaults
 		this._min = 0;
 		this._max = 100;
 		this._progress = 0;
+		this._barBackColor = '#000000';
 		this._barColor = '#fff600';
+		this._barBorderColor = '#ffffff';
 		this._barText = {
 			pre: '',
 			post: '',
@@ -56,15 +58,6 @@ var IgeUiProgressBar = IgeUiElement.extend({
 
 		return this._barText;
 	},
-	
-	min: function (val) {
-		if (val !== undefined) {
-			this._min = val;
-			return this;
-		}
-
-		return this._min;
-	},
 
 	max: function (val) {
 		if (val !== undefined) {
@@ -73,6 +66,15 @@ var IgeUiProgressBar = IgeUiElement.extend({
 		}
 
 		return this._max;
+	},
+
+	min: function (val) {
+		if (val !== undefined) {
+			this._min = val;
+			return this;
+		}
+
+		return this._min;
 	},
 
 	progress: function (val) {
@@ -118,7 +120,7 @@ var IgeUiProgressBar = IgeUiElement.extend({
 		var min = this._min,
 			max = this._max,
 			progress = this._progress,
-			interval = this._bounds2d.x / (max - min),
+			interval = this._geometry.x / (max - min),
 			barWidth = (progress - min) * interval;
 
 		// Check the value is not out of range
@@ -133,19 +135,19 @@ var IgeUiProgressBar = IgeUiElement.extend({
 		// Draw bar fill
 		if (this._barBackColor) {
 			ctx.fillStyle = this._barBackColor;
-			ctx.fillRect(-this._bounds2d.x2, -this._bounds2d.y2, this._bounds2d.x, this._bounds2d.y);
+			ctx.fillRect(-this._geometry.x2, -this._geometry.y2, this._geometry.x, this._geometry.y);
 		}
 
 		// Draw bar
 		if (this._barColor) {
 			ctx.fillStyle = this._barColor;
-			ctx.fillRect(-this._bounds2d.x2, -this._bounds2d.y2, barWidth, this._bounds2d.y);
+			ctx.fillRect(-this._geometry.x2, -this._geometry.y2, barWidth, this._geometry.y);
 		}
 
 		// Draw bar border
 		if (this._barBorderColor) {
 			ctx.strokeStyle = this._barBorderColor;
-			ctx.strokeRect(-this._bounds2d.x2, -this._bounds2d.y2, this._bounds2d.x, this._bounds2d.y);
+			ctx.strokeRect(-this._geometry.x2, -this._geometry.y2, this._geometry.x, this._geometry.y);
 		}
 
 		// Draw bar text centered
@@ -161,6 +163,6 @@ var IgeUiProgressBar = IgeUiElement.extend({
 	tick: function (ctx) {
 		this._transformContext(ctx);
 		this.render(ctx);
-		IgeUiElement.prototype.tick.call(this, ctx, true);
+		IgeUiEntity.prototype.tick.call(this, ctx, true);
 	}
 });

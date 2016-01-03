@@ -1,8 +1,8 @@
-var IgeUiAutoFlow = IgeUiElement.extend({
+var IgeUiAutoFlow = IgeUiEntity.extend({
 	classId: 'IgeUiAutoFlow',
 
 	init: function () {
-		IgeUiElement.prototype.init.call(this);
+		IgeUiEntity.prototype.init.call(this);
 
 		this._currentHeight = 0;
 	},
@@ -15,7 +15,7 @@ var IgeUiAutoFlow = IgeUiElement.extend({
 
 		for (i = 0; i < arrCount; i++) {
 			item = arr[i];
-			itemY = item._bounds2d.y;
+			itemY = item._geometry.y;
 
 			item.top(currentY);
 
@@ -23,6 +23,6 @@ var IgeUiAutoFlow = IgeUiElement.extend({
 		}
 
 		// Now do the super-class tick
-		IgeUiElement.prototype.tick.call(this, ctx);
+		IgeUiEntity.prototype.tick.call(this, ctx);
 	}
 });

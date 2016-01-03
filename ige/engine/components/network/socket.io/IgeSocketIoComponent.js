@@ -17,7 +17,6 @@ var IgeSocketIoComponent = IgeEventingClass.extend([
 		this._port = 8000;
 		this._debug = false;
 		this._debugMax = 0;
-		this._clientRooms = {};
 
 		// Time sync defaults
 		this._timeSyncInterval = 10000; // Sync the client/server clocks every ten seconds by default
@@ -32,7 +31,7 @@ var IgeSocketIoComponent = IgeEventingClass.extend([
 		}
 		/* CEXCLUDE */
 
-		if (ige.isClient) {
+		if (!ige.isServer) {
 			this._socketio = IgeSocketIoClient;
 			this.implement(IgeSocketIoClient);
 		}

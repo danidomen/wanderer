@@ -1,7 +1,7 @@
 /**
  * Provides a UI drop-down menu entity.
  */
-var IgeUiMenu = IgeUiElement.extend({
+var IgeUiMenu = IgeUiEntity.extend({
 	classId: 'IgeUiMenu',
 
 	/**
@@ -81,7 +81,7 @@ var IgeUiMenu = IgeUiElement.extend({
 	}
 });
 
-var IgeUiMenuItem = IgeUiElement.extend({
+var IgeUiMenuItem = IgeUiEntity.extend({
 	classId: 'IgeUiMenuItem',
 
 	menuData: function (menuData) {
