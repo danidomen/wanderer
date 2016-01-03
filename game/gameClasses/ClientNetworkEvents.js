@@ -38,7 +38,16 @@ var ClientNetworkEvents = {
 				}
 			});
 		}
-	}
+	},
+
+    _onShowChatMessageOnPlayer:function(data){
+        console.log(data);
+        ige.$(data).sayText = data.text;
+        a = new CharacterContainer(data.id);
+        a.chatBar.width(data.text.length * 10);
+        a.chatBar.translateTo(-((data.text.length * 10) / 2), -75, 1);
+        a.sayText = data.text;
+    }
 };
 
 if (typeof(module) !== 'undefined' && typeof(module.exports) !== 'undefined') { module.exports = ClientNetworkEvents; }

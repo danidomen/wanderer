@@ -35,7 +35,7 @@ var IgeCamera = IgeEntity.extend({
 	/**
 	 * Pan (tween) the camera to the new specified point in
 	 * the specified time.
-	 * @param {IgePoint} point The point describing the co-ordinates to pan to.
+	 * @param {IgePoint3d} point The point describing the co-ordinates to pan to.
 	 * @param {Number} durationMs The number of milliseconds to span the pan operation over.
 	 * @param {String=} easing Optional easing method name.
 	 */
@@ -58,7 +58,7 @@ var IgeCamera = IgeEntity.extend({
 	/**
 	 * Pan (tween) the camera by the new specified point in
 	 * the specified time.
-	 * @param {IgePoint} point The point describing the co-ordinates to pan by.
+	 * @param {IgePoint3d} point The point describing the co-ordinates to pan by.
 	 * @param {Number} durationMs The number of milliseconds to span the pan operation over.
 	 * @param {String=} easing Optional easing method name.
 	 */
@@ -93,8 +93,14 @@ var IgeCamera = IgeEntity.extend({
 	trackTranslate: function (entity, smoothing, rounding) {
 		if (entity !== undefined) {
 			this.log('Camera on viewport ' + this._entity.id() + ' is now tracking translation target ' + entity.id());
-			this._trackTranslateRounding = rounding;
-			this._trackTranslateSmoothing = smoothing >= 1  ? smoothing : 0;
+			if (rounding !== undefined) {
+				this._trackTranslateRounding = rounding;
+			}
+			
+			if (smoothing !== undefined) {
+				this._trackTranslateSmoothing = smoothing >= 1  ? smoothing : 0;
+			}
+			
 			this._trackTranslateTarget = entity;
 			return this._entity;
 		}
@@ -224,14 +230,14 @@ var IgeCamera = IgeEntity.extend({
 	update: function (ctx) {
 		// Process any behaviours assigned to the camera
 		this._processUpdateBehaviours(ctx);
-		
+					
 		// Check if we are tracking the translate value of a target
 		if (this._trackTranslateTarget) {
 			var targetEntity = this._trackTranslateTarget,
 				targetMatrix = targetEntity._worldMatrix.matrix,
 				targetX = targetMatrix[2],
 				targetY = targetMatrix[5],
-				sourceX, sourceY, distX, distY;
+				sourceX, sourceY, distX, distY, destinationX, destinationY;
 
 			if (!this._trackTranslateSmoothing) {
 				// Copy the target's world matrix translate data
@@ -245,13 +251,35 @@ var IgeCamera = IgeEntity.extend({
 				distY = Math.round(targetY - sourceY);
 
 				if (this._trackTranslateRounding) {
-					this._translate.x += Math.round(distX / this._trackTranslateSmoothing);
-					this._translate.y += Math.round(distY / this._trackTranslateSmoothing);
+					destinationX = this._translate.x + Math.round(distX / this._trackTranslateSmoothing);
+					destinationY = this._translate.y + Math.round(distY / this._trackTranslateSmoothing);
 				} else {
-					this._translate.x += distX / this._trackTranslateSmoothing;
-					this._translate.y += distY / this._trackTranslateSmoothing;
+					destinationX = this._translate.x + distX / this._trackTranslateSmoothing;
+					destinationY = this._translate.y + distY / this._trackTranslateSmoothing;
 				}
-			}
+
+				// Check camera Limits
+				if ( this._limit){
+	
+					if (destinationX < this._limit.x) {
+						destinationX = this._limit.x;
+					}
+					if (destinationX > this._limit.x + this._limit.width) {
+						destinationX = this._limit.x + this._limit.width;
+					}
+					if (destinationY < this._limit.y) {
+						destinationY = this._limit.y;
+					}
+					if (destinationY > this._limit.y + this._limit.height) {
+						destinationY = this._limit.y + this._limit.height;
+					}
+						
+				}
+
+				this._translate.x = destinationX;
+				this._translate.y = destinationY;
+
+			 } 
 		}
 
 		// Check if we are tracking the rotation values of a target
@@ -300,27 +328,8 @@ var IgeCamera = IgeEntity.extend({
 		this._localMatrix.multiply(this._localMatrix._newRotate(this._rotate.z));
 		this._localMatrix.multiply(this._localMatrix._newScale(this._scale.x, this._scale.y));
 
-		if (this._mode === 0) {
-			// 2d translation
-			this._localMatrix.multiply(this._localMatrix._newTranslate(-this._translate.x, -this._translate.y));
-		}
-
-		if (this._mode === 1) {
-			// iso translation
-			var isoPoint = this._translateIso = new IgePoint(
-				this._translate.x,
-				this._translate.y,
-				this._translate.z + this._geometry.z / 2
-			).toIso();
-
-			if (this._parent && this._parent._geometry.z) {
-				// This adjusts the child entity so that 0, 0, 0 inside the
-				// parent is the center of the base of the parent
-				isoPoint.y += this._parent._geometry.z / 1.6;
-			}
-
-			this._localMatrix.multiply(this._localMatrix._newTranslate(isoPoint.x, isoPoint.y));
-		}
+		// 2d translation - cameras are never in iso mode!
+		this._localMatrix.multiply(this._localMatrix._newTranslate(-this._translate.x, -this._translate.y));
 
 		if (this._parent) {
 			this._worldMatrix.copy(this._parent._worldMatrix);

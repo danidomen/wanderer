@@ -21,6 +21,8 @@ var Character = IgeEntity.extend({
 				
 				self.setType(0);
 			}, false, true);
+
+
 		}
 		
 		this._lastTranslate = this._translate.clone();

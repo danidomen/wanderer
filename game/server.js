@@ -16,7 +16,8 @@ var Server = IgeClass.extend({
 		this.implement(ServerNetworkEvents);
 
 		// Add the networking component
-		ige.addComponent(IgeNetIoComponent)
+		ige.addComponent(IgeNetIoComponent);
+		ige.addComponent(IgeChatComponent)
 			// Start the network server
 			.network.start(2000, function () {
 				// Networking has started so start the game engine
@@ -37,6 +38,9 @@ var Server = IgeClass.extend({
 						ige.network.on('connect', self._onPlayerConnect); // Defined in ./gameClasses/ServerNetworkEvents.js
 						ige.network.on('disconnect', self._onPlayerDisconnect); // Defined in ./gameClasses/ServerNetworkEvents.js
 
+                        ige.network.on('igeChatMsg',self._onShowChatMessageOnPlayer);
+                        ige.network.define('showChatMessageOnPlayer', self._onShowChatMessageOnPlayer);
+
 						// Add the network stream component
 						ige.network.addComponent(IgeStreamComponent)
 							.stream.sendInterval(30) // Send a stream update once every 30 milliseconds
@@ -44,6 +48,9 @@ var Server = IgeClass.extend({
 
 						// Accept incoming network connections
 						ige.network.acceptConnections(true);
+
+						// Create a new chat room
+						ige.chat.createRoom('The Lobby', {}, 'lobby');
 
 						// Create the scene
 						self.mainScene = new IgeScene2d()
@@ -81,9 +88,9 @@ var Server = IgeClass.extend({
 						self.collisionMap = new IgeTileMap2d()
 							.tileWidth(40)
 							.tileHeight(40)
-							.translateTo(0, 0, 0);
-							//.occupyTile(1, 1, 1, 1, 1); // Mark tile area as occupied with a value of 1 (x, y, width, height, value);
-						
+							.translateTo(0, 0, 0)
+							.occupyTile(-1, -1, 1, 1, 1);// Mark tile area as occupied with a value of 1 (x, y, width, height, value);
+
 						// Generate some random data for our background texture map
 						// this data will be sent to the client when the server receives
 						// a "gameTiles" network command
@@ -100,6 +107,14 @@ var Server = IgeClass.extend({
 								self.tileData[x][y] = [0, rand];
 							}
 						}
+
+                        var nTiles = self.collisionMap.tileWidth()/2
+                        for (x = 0; x < nTiles; x++) {
+                            self.collisionMap.occupyTile(x, -1, 1, 1, 1);
+                            self.collisionMap.occupyTile(x, nTiles, 1, 1, 1);
+                            self.collisionMap.occupyTile(-1, x, 1, 1, 1);
+                            self.collisionMap.occupyTile(nTiles, x, 1, 1, 1);
+                        }
 						
 						// Create a pathFinder instance that we'll use to find paths
 						self.pathFinder = new IgePathFinder()

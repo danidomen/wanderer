@@ -29,41 +29,50 @@ var ServerNetworkEvents = {
 				.addComponent(PlayerComponent)
 				.streamMode(1)
 				.mount(ige.server.foregroundMap);
-
 			// Tell the client to track their player entity
 			ige.network.send('playerEntity', ige.server.players[clientId].id(), clientId);
 		}
 	},
 
 	_onPlayerControlToTile: function (data, clientId) {
-		var playerEntity = ige.server.players[clientId],
-			newPath,
-			currentPosition = playerEntity._translate,
-			startTile;
-		
-		console.log('Path to: ', data);
-		
-		// Calculate the start tile from the current position by using the collision map
-		// as a tile map (any map will do with the same tileWidth and height).
-		startTile = playerEntity._parent.pointToTile(currentPosition.toIso());
-		
-		console.log('startTile', startTile);
-		
-		// Generate a path to the destination tile and then start movement
-		// along the path
-		newPath = ige.server.pathFinder.aStar(ige.server.collisionMap, startTile, new IgePoint(parseInt(data[0]), parseInt(data[1]), 0), function (tileData, tileX, tileY) {
-			// If the map tile data is set to 1, don't allow a path along it
-			return tileData !== 1;
-		}, true, false);
-		
-		//console.log(newPath);
-		
-		// Start movement along the new path
-		playerEntity
-			.path.clear()
-			.path.add(newPath)
-			.path.start();
-	}
+        var playerEntity = ige.server.players[clientId],
+            newPath,
+            currentPosition = playerEntity._translate,
+            startTile;
+
+        console.log('Path to: ', data);
+
+        // Calculate the start tile from the current position by using the collision map
+        // as a tile map (any map will do with the same tileWidth and height).
+        startTile = playerEntity._parent.pointToTile(currentPosition.toIso());
+
+        console.log('startTile', startTile);
+
+        // Generate a path to the destination tile and then start movement
+        // along the path
+        newPath = ige.server.pathFinder.aStar(ige.server.collisionMap, startTile, new IgePoint(parseInt(data[0]), parseInt(data[1]), 0), function (tileData, tileX, tileY) {
+            // If the map tile data is set to 1, don't allow a path along it
+            return tileData !== 1;
+        }, true, false);
+
+        //console.log(newPath)
+
+        if (newPath.length > 0) {
+            // Start movement along the new path
+            playerEntity
+                .path.clear()
+                .path.add(newPath)
+                .path.start();
+
+            playerEntity.sayText = 'oooooo';
+        }
+	},
+
+    _onShowChatMessageOnPlayer:function(data,clientId){
+
+        ige.server.players[clientId].sayText = data.text;
+        ige.network.send('showChatMessageOnPlayer', {id:ige.server.players[clientId].id(),text:data.text}, clientId);
+    }
 };
 
 if (typeof(module) !== 'undefined' && typeof(module.exports) !== 'undefined') { module.exports = ServerNetworkEvents; }

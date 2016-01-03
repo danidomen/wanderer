@@ -4,8 +4,11 @@ var CharacterContainer = IgeEntity.extend({
 
 	init: function () {
 		var self = this;
+
+
+
 		IgeEntity.prototype.init.call(this);
-		
+
 		if (!ige.isServer) {
 			// Setup the entity 3d bounds
 			self.size3d(20, 20, 40);
@@ -18,8 +21,50 @@ var CharacterContainer = IgeEntity.extend({
 				.drawBoundsData(false)
 				.originTo(0.5, 0.6, 0.5)
 				.mount(self);
-			
-			// Set the co-ordinate system as isometric
+
+            ige.network.on('igeChatMsg',function(e) {
+                self.chatBar.width(e.text.length * 10);
+                self.chatBar.translateTo(-((e.text.length * 10) / 2), -75, 1);
+                self.sayText = e.text;
+            });
+
+            self.sayText = '';
+            self.healthBar = new IgeEntity();
+            self.chatBar = new IgeEntity();
+            this._healthTexture = new IgeTexture('../assets/textures/smartTextures/healthBar.js');
+            this._chatTexture = new IgeTexture('../assets/textures/smartTextures/chatBar.js');
+            // Wait for the texture to load
+            this._healthTexture.on('loaded', function () {
+                var healthBarWidth = ige.client.textureMap1.tileWidth()*1.5;
+                self.healthBar = new IgeEntity()
+                    .texture(self._healthTexture)
+                    .id(this.id() + '_healthBar')
+                    .width(healthBarWidth)
+                    .height(11)
+                    .translateTo(-(healthBarWidth / 2), -60, 1)
+                    .drawBounds(false)
+                    .drawBoundsData(false)
+                    .originTo(0.5, 0.5, 0.5)
+                    .mount(self);
+
+            }, false, true);
+
+            this._chatTexture.on('loaded', function () {
+
+                self.chatBar = new IgeEntity()
+                    .texture(self._chatTexture)
+                    .id(this.id() + '_chatBar')
+                    .width(0)
+                    .height(11)
+                    //.translateTo(-(100 / 2), -85, 1)
+                    .drawBounds(false)
+                    .drawBoundsData(false)
+                    .originTo(0.5, 0.5, 0.5)
+                    .mount(self);
+            }, false, true);
+
+
+            // Set the co-ordinate system as isometric
 			this.isometric(true);
 		}
 		
@@ -72,6 +117,7 @@ var CharacterContainer = IgeEntity.extend({
 			// when it's value changes!
 			this._streamDir = this.path.currentDirection();
 		} else {
+
 			// Set the depth to the y co-ordinate which basically
 			// makes the entity appear further in the foreground
 			// the closer they become to the bottom of the screen

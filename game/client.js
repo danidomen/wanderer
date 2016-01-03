@@ -34,9 +34,10 @@ var Client = IgeClass.extend({
 					// a splash screen or a menu first? Then connect after you've
 					// got a username or something?
 					ige.network.start('http://localhost:2000', function () {
+						ige.addComponent(IgeChatComponent);
 						// Setup the network command listeners
 						ige.network.define('playerEntity', self._onPlayerEntity); // Defined in ./gameClasses/ClientNetworkEvents.js
-
+                        ige.network.define('showChatMessageOnPlayer',self._onShowChatMessageOnPlayer);
 						// Setup the network stream handler
 						ige.network.addComponent(IgeStreamComponent)
 							.stream.renderLatency(80) // Render the simulation 160 milliseconds in the past
@@ -50,9 +51,11 @@ var Client = IgeClass.extend({
 						self.mainScene = new IgeScene2d()
 							.id('mainScene');
 
+
 						self.backgroundScene = new IgeScene2d()
 							.id('backgroundScene')
 							.layer(0)
+
 							.mount(self.mainScene);
 						
 						self.foregroundScene = new IgeScene2d()
@@ -73,6 +76,73 @@ var Client = IgeClass.extend({
 							.ignoreCamera(true)
 							.mount(self.mainScene);
 
+						ige.ui.style('.myStyle',{
+							'width':'90%',
+							'height': '90%',
+							'borderColor':'#FFFFFF',
+							'borderWidth': 1,
+							'borderRadius': 15
+						});
+
+						ige.ui.style('.chattingInput',{
+							'width':'70%',
+							'height':30,
+							'borderColor':'#FFFFFF',
+							'borderWidth': 1,
+							'borderRadius': 15,
+							'bottom': 15,
+							'left':10
+						});
+
+                        ige.ui.style('.chattingText',{
+                            'width':'20%',
+                            'height':300,
+                            'borderColor':'#FFFFFF',
+                            'borderWidth': 1,
+                            'borderRadius': 15,
+                            'bottom': 15,
+                            'right':10
+                        });
+
+						ige.ui.style('.chattingInput:focus',{
+							'borderColor':'#FFFF00',
+							'borderWidth': 2
+						});
+
+						/*ige.ui.style('.myStyle:hover',{
+						 'backgroundColor':'#ff0000'
+						 });*/
+
+						new IgeUiElement()
+							.id('div1')
+							.mount(self.uiScene);
+
+                        self.ctBox = new IgeUiTextBox()
+                            .id('ctBox')
+                            .styleClass('chattingText')
+                            //.placeHolder('write something and press ENTER to chat...')
+                            .mount(self.uiScene);
+
+                        self.ctBox._fontEntity
+                            .nativeFont('Verdana 12px')
+                            .colorOverlay('#ffffff');
+
+						self.ctInput = new IgeUiTextBox()
+							.id('ctInput')
+							.styleClass('chattingInput')
+							//.placeHolder('write something and press ENTER to chat...')
+							.mount(self.uiScene);
+
+						self.ctInput._fontEntity
+							.nativeFont('Verdana 12px')
+							.colorOverlay('#ffffff');
+
+
+
+                        self.ctInput.on('focus',function(){
+                            ige.input.stopPropagation();
+                        });
+
 						// Create the main viewport and set the scene
 						// it will "look" at as the new scene1 we just
 						// created above
@@ -89,13 +159,14 @@ var Client = IgeClass.extend({
 							.depth(0)
 							.tileWidth(40)
 							.tileHeight(40)
-							//.drawGrid(3)
+							//.drawGrid(20)
 							.drawMouse(true)
 							.translateTo(0, 0, 0)
 							.drawBounds(false)
 							.autoSection(10)
 							.drawSectionBounds(false)
 							.isometricMounts(true)
+                            .highlightOccupied(false)
 							//.translateTo(300, 300, 0)
 							.mount(self.backgroundScene);
 	
