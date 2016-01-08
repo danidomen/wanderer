@@ -69,9 +69,35 @@ var ServerNetworkEvents = {
 	},
 
     _onShowChatMessageOnPlayer:function(data,clientId){
+        var playerEntity = ige.server.players[clientId];
+        //playerEntity.sayText = data;
+        //ige.server.players[clientId].sayText = data.text;
+        //playerEntity.streamSectionData('chat',data.text);
+        playerEntity._streamChat = data.text;
 
-        ige.server.players[clientId].sayText = data.text;
-        ige.network.send('showChatMessageOnPlayer', {id:ige.server.players[clientId].id(),text:data.text}, clientId);
+        if(data.text == 'HIT'){
+            for(var id_player in ige.server.players){
+                if(id_player!=clientId) {
+                    playerAttacked = ige.server.players[id_player];
+                    playerAttacked._streamHealth = playerAttacked.currentHealth-=10;
+                }
+            }
+
+/*
+
+            ige.server.players.forEach(function(player,id){
+                if(id!=clientId) {
+                    playerAttacked = ige.server.players[id];
+                    playerAttacked._streamHealth = playerAttacked.currentHealth-=10;
+                }
+            });*/
+
+            //playerEntity._streamHealth = playerEntity.currentHealth-=10;
+        }
+
+        //console.log(playerEntity._id);
+        //ige.network.send('showChatMessageOnPlayer', {id:ige.server.players[clientId].id(),text:data.text,playerEntity:playerEntity._id}, clientId);
+
     }
 };
 

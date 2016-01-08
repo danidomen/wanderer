@@ -6,7 +6,7 @@ var image = {
     render: function (ctx, entity, tickTime) {
         var character = entity.parent();
 
-        character.currentHealth = 10;
+
         if (character.currentHealth <= 0) {
             return;
         }
@@ -17,11 +17,11 @@ var image = {
         var entityWidth = entity.width();
         var entityHeight = entity.height();
 
-        //var maxHealth = character.attributes.health.getMaximum();
-        //var currentHealth = character.attributes.health.getValue();
+        var maxHealth = character.maxHealth;
+        var currentHealth = character.currentHealth;
 
-        var maxHealth = 20;
-        var currentHealth = 10;
+        //var maxHealth = 20;
+        //var currentHealth = 20;
 
         // Drawing the bar background
         ctx.fillStyle = '#ff0000';

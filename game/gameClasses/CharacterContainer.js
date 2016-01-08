@@ -5,7 +5,8 @@ var CharacterContainer = IgeEntity.extend({
 	init: function () {
 		var self = this;
 
-
+		self.maxHealth = 100;
+		self.currentHealth = 100;
 
 		IgeEntity.prototype.init.call(this);
 
@@ -22,15 +23,11 @@ var CharacterContainer = IgeEntity.extend({
 				.originTo(0.5, 0.6, 0.5)
 				.mount(self);
 
-            ige.network.on('igeChatMsg',function(e) {
-                self.chatBar.width(e.text.length * 10);
-                self.chatBar.translateTo(-((e.text.length * 10) / 2), -75, 1);
-                self.sayText = e.text;
-            });
 
             self.sayText = '';
             self.healthBar = new IgeEntity();
             self.chatBar = new IgeEntity();
+
             this._healthTexture = new IgeTexture('../assets/textures/smartTextures/healthBar.js');
             this._chatTexture = new IgeTexture('../assets/textures/smartTextures/chatBar.js');
             // Wait for the texture to load
@@ -73,7 +70,7 @@ var CharacterContainer = IgeEntity.extend({
 		}
 		
 		// Define the data sections that will be included in the stream
-		this.streamSections(['transform', 'direction']);
+		this.streamSections(['transform', 'direction','chat','health']);
 	},
 	
 	/**
@@ -88,6 +85,8 @@ var CharacterContainer = IgeEntity.extend({
 	 */
 	streamSectionData: function (sectionId, data) {
 		// Check if the section is one that we are handling
+
+
 		if (sectionId === 'direction') {
 			// Check if the server sent us data, if not we are supposed
 			// to return the data instead of set it
@@ -102,7 +101,40 @@ var CharacterContainer = IgeEntity.extend({
 				// Return current data
 				return this._streamDir;
 			}
-		} else {
+		} else if (sectionId === 'chat'){
+
+			if (!ige.isServer) {
+				if (data) {
+					this._streamChat = data;
+				}
+				else{
+					return this._streamChat;
+				}
+			}
+			else {
+				// Return current data
+				return this._streamChat;
+			}
+
+		}
+		else if (sectionId === 'health'){
+
+			if (!ige.isServer) {
+				if (data) {
+					this._streamHealth = data;
+				}
+				else{
+					return this._streamHealth;
+				}
+			}
+			else {
+				// Return current data
+				return this._streamHealth;
+			}
+
+		}
+
+		else {
 			// The section was not one that we handle here, so pass this
 			// to the super-class streamSectionData() method - it handles
 			// the "transform" section by itself
@@ -122,7 +154,17 @@ var CharacterContainer = IgeEntity.extend({
 			// makes the entity appear further in the foreground
 			// the closer they become to the bottom of the screen
 			this.depth(this._translate.y);
-			
+			var message = this._streamChat;
+			if(message) {
+				this.chatBar.width(message.length * 10);
+				this.chatBar.translateTo(-((message.length * 10) / 2), -75, 1);
+				this.sayText = message;
+			}
+			var health = this._streamHealth;
+			if(health){
+				this.currentHealth = health;
+			}
+
 			if (this._streamDir) {
 				if ((this._streamDir !== this._currentDir || !this.character.animation.playing())) {
 					this._currentDir = this._streamDir;
@@ -148,11 +190,15 @@ var CharacterContainer = IgeEntity.extend({
 							dir = 'W';
 							break;
 					}*/
-					
+
+
+
 					if (dir && dir !== 'stop') {
 						this.character.animation.start(dir);
+
 					} else {
 						this.character.animation.stop();
+
 					}
 				}
 			} else {
