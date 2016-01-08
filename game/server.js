@@ -108,8 +108,8 @@ var Server = IgeClass.extend({
 							}
 						}
 
-                        var nTiles = self.collisionMap.tileWidth()/2
-                        for (x = 0; x < nTiles; x++) {
+                        var nTiles = (self.collisionMap.tileWidth()/2);
+                        for (x = 0; x <= nTiles; x++) {
                             self.collisionMap.occupyTile(x, -1, 1, 1, 1);
                             self.collisionMap.occupyTile(x, nTiles, 1, 1, 1);
                             self.collisionMap.occupyTile(-1, x, 1, 1, 1);
