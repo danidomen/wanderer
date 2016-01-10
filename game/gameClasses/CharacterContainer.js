@@ -12,8 +12,10 @@ var CharacterContainer = IgeEntity.extend({
 
 		if (!ige.isServer) {
 			// Setup the entity 3d bounds
-			self.size3d(20, 20, 40);
-	
+			self.size3d(40, 40, 40);
+
+            //self.width(100);
+            //self.height(100);
 			// Create a character entity as a child of this container
 			self.character = new Character()
 				.id(self.id() + '_character')
@@ -53,7 +55,7 @@ var CharacterContainer = IgeEntity.extend({
                     .id(this.id() + '_chatBar')
                     .width(0)
                     .height(11)
-                    //.translateTo(-(100 / 2), -85, 1)
+                    .translateTo(0, -40, 1)
                     .drawBounds(false)
                     .drawBoundsData(false)
                     .originTo(0.5, 0.5, 0.5)
@@ -68,7 +70,10 @@ var CharacterContainer = IgeEntity.extend({
 		if (ige.isServer) {
 			this.addComponent(IgePathComponent);
 		}
-		
+		self.mouseUp(function(){
+            //console.log('Se ha pulsado sobre CharacterContainer '+self.id());
+            ige.network.send('touchCharacterContainer', self.id());
+        });
 		// Define the data sections that will be included in the stream
 		this.streamSections(['transform', 'direction','chat','health']);
 	},

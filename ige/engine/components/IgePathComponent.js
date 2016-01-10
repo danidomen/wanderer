@@ -425,7 +425,7 @@ var IgePathComponent = IgeEventingClass.extend({
 							self._speed,
 							ige._tickDelta
 						);
-						
+                        self.emit('pointOnMove', targetPoint)
 						this.translateTo(newPosition.x, newPosition.y, currentPosition.z);
 					} else {
 						// We are at the target cell, move to the next cell

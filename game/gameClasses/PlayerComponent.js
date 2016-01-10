@@ -15,8 +15,8 @@ var PlayerComponent = IgeEntity.extend({
             ige.chat.joinRoom('lobby');
 			// Listen for mouse events on the texture map
 			ige.client.textureMap1.mouseUp(function (tileX, tileY, event) {
-				// Send a message to the server asking to path to this tile
-				ige.network.send('playerControlToTile', [tileX, tileY]);
+                    // Send a message to the server asking to path to this tile
+                    ige.network.send('playerControlToTile', [tileX, tileY]);
 			});
 
             ige.client.ctInput.on('enter',function(e){

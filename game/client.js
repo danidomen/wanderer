@@ -113,9 +113,9 @@ var Client = IgeClass.extend({
 						 'backgroundColor':'#ff0000'
 						 });*/
 
-						new IgeUiElement()
+                        /*new IgeUiElement()
 							.id('div1')
-							.mount(self.uiScene);
+							.mount(self.uiScene);*/
 
                         self.ctBox = new IgeUiTextBox()
                             .id('ctBox')
@@ -140,7 +140,7 @@ var Client = IgeClass.extend({
 
 
                         self.ctInput.on('focus',function(){
-                            ige.input.stopPropagation();
+                            //ige.input.stopPropagation();
                         });
 
 						// Create the main viewport and set the scene

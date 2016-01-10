@@ -30,7 +30,7 @@ var igeCoreConfig = {
 		['csap', 'IgeEditorRotateComponent', 'components/editor/IgeEditorRotateComponent.js'],
 		/* Physics Libraries */
 		['csap', 'Box2D', 'components/physics/box2d/lib_box2d.js', 'Box2D'],
-		['csap', 'Cannon', 'components/physics/cannon/lib_cannon.js'],
+		['csap', 'CANNON', 'components/physics/cannon/lib_cannon.js'],
 		['csap', 'IgeCannonComponent', 'components/physics/cannon/IgeCannonComponent.js'],
 		/* Network Stream */
 		['csap', 'IgeTimeSyncExtension', 'components/network/IgeTimeSyncExtension.js'],
