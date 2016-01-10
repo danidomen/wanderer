@@ -19,7 +19,7 @@ var CharacterContainer = IgeEntity.extend({
 			// Create a character entity as a child of this container
 			self.character = new Character()
 				.id(self.id() + '_character')
-				.setType(3)
+				.setType(1)
 				.drawBounds(false)
 				.drawBoundsData(false)
 				.originTo(0.5, 0.6, 0.5)
@@ -55,7 +55,7 @@ var CharacterContainer = IgeEntity.extend({
                     .id(this.id() + '_chatBar')
                     .width(0)
                     .height(11)
-                    .translateTo(0, -40, 1)
+                    .translateTo(0, -30, 1)
                     .drawBounds(false)
                     .drawBoundsData(false)
                     .originTo(0.5, 0.5, 0.5)

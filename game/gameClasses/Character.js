@@ -12,14 +12,14 @@ var Character = IgeEntity.extend({
 				.depth(1);
 			
 			// Load the character texture file
-			this._characterTexture = new IgeCellSheet('../assets/textures/sprites/womanWalking.png', 9, 8);
+			this._characterTexture = new IgeCellSheet('../assets/textures/sprites/wandererWalking.png', 9, 8);
 	
 			// Wait for the texture to load
 			this._characterTexture.on('loaded', function () {
 				self.texture(self._characterTexture)
 					.dimensionsFromCell();
 				
-				self.setType(0);
+				//self.setType(1);
 			}, false, true);
 
 
@@ -56,14 +56,18 @@ var Character = IgeEntity.extend({
 				break;
 
 			case 1:
-				this.animation.define('S', [4, 5, 6, 5], 8, -1)
-					.animation.define('W', [16, 17, 18, 17], 8, -1)
-					.animation.define('E', [28, 29, 30, 29], 8, -1)
-					.animation.define('N', [40, 41, 42, 41], 8, -1)
-					.cell(4);
+                this.animation.define('S', [10,11,12,13,14,15,16,17,18], 8, -1)
+                    .animation.define('W', [28,29,30,31,32,33,34,35,36], 8, -1)
+                    .animation.define('E', [64, 65, 66, 67,68,69,70,71,72], 8, -1)
+                    .animation.define('N', [46, 47, 48, 49,50,51,52,53,54], 8, -1)
+                    .animation.define('NW', [46, 47, 48, 49,50,51,52,53,54], 8, -1)// Arriba
+                    .animation.define('NE', [55, 56,57,58,59,60,61,62,63], 8, -1) //Derecha
+                    .animation.define('SE', [10,11,12,13,14,15,16,17,18], 8, -1)// Abajo
+                    .animation.define('SW', [19,20,21,22,23,24,25,26,27], 8, -1)  // Izquierda
+                    .cell(1);
 
-				this._restCell = 4;
-				break;
+                this._restCell = 1;
+                break;
 
 			case 2:
 				this.animation.define('S', [7, 8, 9, 8], 8, -1)
