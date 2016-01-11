@@ -67,9 +67,10 @@ var IgePathFinder = IgeEventingClass.extend({
 	 * @param {Boolean} allowSquare Whether to allow neighboring tiles along a square axis. Defaults to true if undefined.
 	 * @param {Boolean} allowDiagonal Whether to allow neighboring tiles along a diagonal axis. Defaults to false if undefined.
 	 * @param {Boolean=} allowInvalidDestination If the path finder cannot path to the destination tile, if this is true the closest path will be returned instead.
+	 * @param {Boolean=} onlySixDirections Only Six Directions like Fallout games.
 	 * @return {Array} An array of objects each containing an x, y co-ordinate that describes the path from the starting point to the end point in order.
 	 */
-	aStar: function (tileMap, startPoint, endPoint, comparisonCallback, allowSquare, allowDiagonal, allowInvalidDestination) {
+	aStar: function (tileMap, startPoint, endPoint, comparisonCallback, allowSquare, allowDiagonal, allowInvalidDestination, onlySixDirections) {
 		var openList = [],
 			closedList = [],
 			listHash = {},
@@ -90,6 +91,7 @@ var IgePathFinder = IgeEventingClass.extend({
 		// Set some defaults
 		if (allowSquare === undefined) { allowSquare = true; }
 		if (allowDiagonal === undefined) { allowDiagonal = false; }
+		if (onlySixDirections === undefined) { onlySixDirections = false; }
 
 		// Check that the end point on the map is actually allowed to be pathed to!
 		tileMapData = tileMap.map._mapData;
@@ -155,7 +157,7 @@ var IgePathFinder = IgeEventingClass.extend({
 				currentNode.listType = -1;
 
 				// Get the current node's neighbors
-				neighbourList = this._getNeighbours(currentNode, endPoint, tileMap, comparisonCallback, allowSquare, allowDiagonal);
+				neighbourList = this._getNeighbours(currentNode, endPoint, tileMap, comparisonCallback, allowSquare, allowDiagonal,onlySixDirections);
 				neighbourCount = neighbourList.length;
 
 				// Loop the neighbours and add each one to the open list
@@ -229,10 +231,11 @@ var IgePathFinder = IgeEventingClass.extend({
 	 * @param {Function} comparisonCallback The callback function that will decide if the tile data at the neighbouring node is to be used or not. Must return a boolean value.
 	 * @param {Boolean} allowSquare Whether to allow neighboring tiles along a square axis.
 	 * @param {Boolean} allowDiagonal Whether to allow neighboring tiles along a diagonal axis.
+	 * @param {Boolean=} onlySixDirections Only Six Directions like Fallout games.
 	 * @return {Array} An array containing nodes describing the neighbouring tiles of the current node.
 	 * @private
 	 */
-	_getNeighbours: function (currentNode, endPoint, tileMap, comparisonCallback, allowSquare, allowDiagonal) {
+	_getNeighbours: function (currentNode, endPoint, tileMap, comparisonCallback, allowSquare, allowDiagonal,onlySixDirections) {
 		var list = [],
 			x = currentNode.x,
 			y = currentNode.y,
@@ -275,11 +278,14 @@ var IgePathFinder = IgeEventingClass.extend({
 		}
 
 		if (allowDiagonal) {
-			newX = x - 1; newY = y - 1;
-			tileData = mapData[newY] && mapData[newY][newX] ? mapData[newY][newX] : null;
-			if (comparisonCallback(tileData, newX, newY, currentNodeData, x, y)) {
-				newNode = new IgePathNode(newX, newY, currentNode.g, this._diagonalCost, this._heuristic(newX, newY, endPoint.x, endPoint.y, this._diagonalCost), currentNode, 'NW');
-				list.push(newNode);
+			if(!onlySixDirections) {
+				newX = x - 1;
+				newY = y - 1;
+				tileData = mapData[newY] && mapData[newY][newX] ? mapData[newY][newX] : null;
+				if (comparisonCallback(tileData, newX, newY, currentNodeData, x, y)) {
+					newNode = new IgePathNode(newX, newY, currentNode.g, this._diagonalCost, this._heuristic(newX, newY, endPoint.x, endPoint.y, this._diagonalCost), currentNode, 'NW');
+					list.push(newNode);
+				}
 			}
 
 			newX = x + 1; newY = y - 1;
@@ -295,12 +301,14 @@ var IgePathFinder = IgeEventingClass.extend({
 				newNode = new IgePathNode(newX, newY, currentNode.g, this._diagonalCost, this._heuristic(newX, newY, endPoint.x, endPoint.y, this._diagonalCost), currentNode, 'SW');
 				list.push(newNode);
 			}
-
-			newX = x + 1; newY = y + 1;
-			tileData = mapData[newY] && mapData[newY][newX] ? mapData[newY][newX] : null;
-			if (comparisonCallback(tileData, newX, newY, currentNodeData, x, y)) {
-				newNode = new IgePathNode(newX, newY, currentNode.g, this._diagonalCost, this._heuristic(newX, newY, endPoint.x, endPoint.y, this._diagonalCost), currentNode, 'SE');
-				list.push(newNode);
+			if(!onlySixDirections) {
+				newX = x + 1;
+				newY = y + 1;
+				tileData = mapData[newY] && mapData[newY][newX] ? mapData[newY][newX] : null;
+				if (comparisonCallback(tileData, newX, newY, currentNodeData, x, y)) {
+					newNode = new IgePathNode(newX, newY, currentNode.g, this._diagonalCost, this._heuristic(newX, newY, endPoint.x, endPoint.y, this._diagonalCost), currentNode, 'SE');
+					list.push(newNode);
+				}
 			}
 		}
 
