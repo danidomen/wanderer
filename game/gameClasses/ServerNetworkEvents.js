@@ -132,7 +132,7 @@ var ServerNetworkEvents = {
                             newPath = ige.server.pathFinder.aStar(ige.server.collisionMap, startTile, new IgePoint(parseInt(b.link.x), parseInt(b.link.y), 0), function (tileData, tileX, tileY) {
                                 // If the map tile data is set to 1, don't allow a path along it
                                 return tileData !== 1;
-                            }, true, true, false);
+                            }, true, true, false,true);
 
 
                             if (newPath.length > 0) {
