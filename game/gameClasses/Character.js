@@ -12,7 +12,7 @@ var Character = IgeEntity.extend({
 				.depth(1);
 			
 			// Load the character texture file
-			this._characterTexture = new IgeCellSheet('../assets/textures/sprites/wandererWalking.png', 9, 8);
+			this._characterTexture = new IgeCellSheet('../assets/textures/sprites/wanderer2.png', 9, 32);
 	
 			// Wait for the texture to load
 			this._characterTexture.on('loaded', function () {
@@ -64,9 +64,32 @@ var Character = IgeEntity.extend({
                     .animation.define('NE', [55, 56,57,58,59,60,61,62,63], 8, -1) //Derecha
                     .animation.define('SE', [10,11,12,13,14,15,16,17,18], 8, -1)// Abajo
                     .animation.define('SW', [19,20,21,22,23,24,25,26,27], 8, -1)  // Izquierda
+                    .animation.define('K_S', [82,83,84,85,86,87,88,89,90], 16, 0) // KNIFE
+                    .animation.define('K_SW', [91,92,93,94,95,96,97,98,99], 16, 0)
+                    .animation.define('K_W', [100,101,102,103,104,105,106,107,108], 16, 0)
+                    .animation.define('K_N', [117,118,119,120,121,122,123,124,125], 16, 0)
+                    .animation.define('K_NE', [126,127,128,129,130,131,132,133,134], 16, 0)
+                    .animation.define('K_E', [135,136,137,138,139,140,141,142,143], 16, 0)
+                    .animation.define('H_S', [154,155,156,157,158,159], 16, 0) // HIT
+                    .animation.define('H_SW', [163,164,165,166,167,168], 16, 0)
+                    .animation.define('H_W', [172,173,174,175,176,177], 16, 0)
+                    .animation.define('H_N', [190,191,192,193,194,195], 16, 0)
+                    .animation.define('H_NE', [199,200,201,202,203,204], 16, 0)
+                    .animation.define('H_E', [208,209,210,211,212,213], 16, 0)
                     .cell(1);
 
                 this._restCell = 1;
+            /*
+            <?php
+
+                $numbers = array();
+                $start = 208;
+                for($i=0;$i<6;$i++){
+                    $numbers[] = $start + $i;
+                }
+
+                echo '['.implode(',',$numbers).']';*/
+
                 break;
 
 			case 2:

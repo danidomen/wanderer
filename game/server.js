@@ -3,17 +3,37 @@ var Server = IgeClass.extend({
 	Server: true,
 
 	init: function (options) {
+
+        ige.addComponent(IgeMySqlComponent, options.db).mysql.connect(function (err, db) {
+            // Check if we connected to mysql correctly
+            if (!err) {
+                // Query the database
+                ige.mysql.query('SELECT * FROM user', function (err, rows, fields) {
+                    if (!err) {
+                        console.log(rows[0]);
+                    } else {
+                        console.log('Error', err);
+                    }
+                });
+            } else {
+                console.log(err);
+            }
+        });
 		var self = this;
 		ige.timeScale(1);
 
 		// Define an object to hold references to our player entities
 		this.players = {};
-		
+        this.npcs = {};
 		// Define an array to hold our tile data
 		this.tileData = [];
 
+
 		// Add the server-side game methods / event handlers
-		this.implement(ServerNetworkEvents);
+        this.implement(GameItem);
+        this.implement(GameObject);
+        this.implement(ServerNetworkEvents);
+
 
 		// Add the networking component
 		ige.addComponent(IgeNetIoComponent);
@@ -31,7 +51,9 @@ var Server = IgeClass.extend({
 							// Send the tile data back
 							ige.network.response(requestId, self.tileData);
 						});
-						
+
+                        ige.network.define('login', self._login);
+                        ige.network.define('getMap', self._getMap);
 						ige.network.define('playerEntity', self._onPlayerEntity);
 						ige.network.define('playerControlToTile', self._onPlayerControlToTile);
                         ige.network.define('touchCharacterContainer', self._onTouchCharacterContainer);
@@ -89,6 +111,7 @@ var Server = IgeClass.extend({
 						self.collisionMap = new IgeTileMap2d()
 							.tileWidth(40)
 							.tileHeight(40)
+                            .isometricMounts(true)
 							.translateTo(0, 0, 0)
 							.occupyTile(-1, -1, 1, 1, 1);// Mark tile area as occupied with a value of 1 (x, y, width, height, value);
 
@@ -120,10 +143,19 @@ var Server = IgeClass.extend({
 						// Create a pathFinder instance that we'll use to find paths
 						self.pathFinder = new IgePathFinder()
 							.neighbourLimit(100);
+                        self.pathFinder2 = new IgePathFinder2()
+                            .neighbourLimit(100)
 					}
 				});
 			});
-	}
+	},
+    createTemporaryItem: function (type) {
+        // Create a new item at a far off tile position - it will
+        // be moved to follow the mouse cursor anyway but it's cleaner
+        // to create it off-screen first.
+        console.log(this.foregroundMap);
+        return new this[type](this.foregroundMap, 100, 100);
+    }
 });
 
 if (typeof(module) !== 'undefined' && typeof(module.exports) !== 'undefined') { module.exports = Server; }

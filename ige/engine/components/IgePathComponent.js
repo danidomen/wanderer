@@ -109,7 +109,7 @@ var IgePathComponent = IgeEventingClass.extend({
 	 *     // Create an entity and add the path component
 	 *     var entity = new IgeEntity()
 	 *         .addComponent(IgePathComponent);
-	 *     
+	 *
 	 *     // Create a path and add it to the entity
 	 *     // ...
 	 *     // Now get the current direction
@@ -120,48 +120,58 @@ var IgePathComponent = IgeEventingClass.extend({
 	currentDirection: function () {
 		var cell = this.currentTargetCell(),
 			dir = '';
-		
+
+        if(this._entity.lookAtDir){
+            console.log(this._entity.lookAtDir);
+            dir = this._entity.lookAtDir;
+            //if(this._entity.lookAtDir.indexOf('K_')<0) {
+            this._entity.lookAtDir = false;
+            //}
+            return dir;
+        }
 		if (cell) {
 			dir = cell.direction;
-			
+
 			if (this._entity._mode === 1) {
 				// Convert direction for isometric
 				switch (dir) {
 					case 'E':
 						dir = 'SE';
 						break;
-					
+
 					case 'S':
 						dir = 'SW';
 						break;
-					
+
 					case 'W':
 						dir = 'NW';
 						break;
-					
+
 					case 'N':
 						dir = 'NE';
 						break;
-					
+
 					case 'NE':
 						dir = 'E';
 						break;
-					
+
 					case 'SW':
 						dir = 'W';
 						break;
-					
+
 					case 'NW':
 						dir = 'N';
 						break;
-					
+
 					case 'SE':
 						dir = 'S';
 						break;
 				}
 			}
 		}
-
+        if(this._entity._streamCustomanim){
+            //this._entity._streamCustomanim = false;
+        }
 		return dir;
 	},
 
@@ -280,22 +290,22 @@ var IgePathComponent = IgeEventingClass.extend({
 					// If we don't have a current path index, set it to zero
 					if (this._currentPathIndex === -1) { this._currentPathIndex = 0; }
 					if (this._targetCellIndex === -1) { this._targetCellIndex = 0; }
-	
+
 					// If we weren't passed a start time, assign it the current time
 					if (startTime === undefined) {
 						startTime = ige._currentTime;
 					}
-	
+
 					if (this._paused) {
 						// Bring the arrival time of the target cell forward to take
 						// into account the time we were paused
 						this._targetCellArrivalTime += startTime - this._pauseTime;
 						this._paused = false;
 					}
-	
+
 					this._startTime = startTime;
 					this._currentTime = this._startTime;
-	
+
 					// Set pathing to active
 					this._active = true;
 					this.emit('started', this._entity);
@@ -477,7 +487,7 @@ var IgePathComponent = IgeEventingClass.extend({
 			}
 		}
 	},
-	
+
 	_tickBehaviour: function (ctx) {
 		if (!ige.isServer) {
 			this.path._drawPathToCtx(this, ctx);
@@ -519,7 +529,7 @@ var IgePathComponent = IgeEventingClass.extend({
 								ctx.strokeStyle = '#fff000';
 								ctx.fillStyle = '#fff000';
 							}
-							
+
 							if(tempCurrentPath[pathPointIndex].mode===0){
 								if (entity._parent.isometricMounts()) {
 									tracePathPoint = new IgePoint((tempCurrentPath[pathPointIndex].x * entity._parent._tileWidth), (tempCurrentPath[pathPointIndex].y * entity._parent._tileHeight), 0).toIso();

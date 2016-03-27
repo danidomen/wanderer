@@ -7,12 +7,14 @@ var CharacterContainer = IgeEntity.extend({
 
 		self.maxHealth = 100;
 		self.currentHealth = 100;
+        self.isMelee = true;
+        self.nickname = false;
 
 		IgeEntity.prototype.init.call(this);
 
 		if (!ige.isServer) {
 			// Setup the entity 3d bounds
-			self.size3d(40, 40, 40);
+			self.size3d(10, 10, 40);
 
             //self.width(100);
             //self.height(100);
@@ -29,9 +31,11 @@ var CharacterContainer = IgeEntity.extend({
             self.sayText = '';
             self.healthBar = new IgeEntity();
             self.chatBar = new IgeEntity();
+            self.nameBar = new IgeEntity();
 
             this._healthTexture = new IgeTexture('../assets/textures/smartTextures/healthBar.js');
             this._chatTexture = new IgeTexture('../assets/textures/smartTextures/chatBar.js');
+            this._nameTexture = new IgeTexture('../assets/textures/smartTextures/nameBar.js');
             // Wait for the texture to load
             this._healthTexture.on('loaded', function () {
                 var healthBarWidth = ige.client.textureMap1.tileWidth()*1.5;
@@ -40,7 +44,7 @@ var CharacterContainer = IgeEntity.extend({
                     .id(this.id() + '_healthBar')
                     .width(healthBarWidth)
                     .height(11)
-                    .translateTo(-(healthBarWidth / 2), -60, 1)
+                    .translateTo(-(healthBarWidth / 2), -50, 1)
                     .drawBounds(false)
                     .drawBoundsData(false)
                     .originTo(0.5, 0.5, 0.5)
@@ -54,8 +58,22 @@ var CharacterContainer = IgeEntity.extend({
                     .texture(self._chatTexture)
                     .id(this.id() + '_chatBar')
                     .width(0)
+                    .height(0)
+                    .translateTo(0, -10, 1)
+                    .drawBounds(false)
+                    .drawBoundsData(false)
+                    .originTo(0.5, 0.5, 0.5)
+                    .mount(self);
+            }, false, true);
+
+            this._nameTexture.on('loaded', function () {
+
+                self.nameBar = new IgeEntity()
+                    .texture(self._nameTexture)
+                    .id(this.id() + '_nameBar')
+                    .width(0)
                     .height(11)
-                    .translateTo(0, -30, 1)
+                    .translateTo(0, -65, 1)
                     .drawBounds(false)
                     .drawBoundsData(false)
                     .originTo(0.5, 0.5, 0.5)
@@ -69,13 +87,15 @@ var CharacterContainer = IgeEntity.extend({
 		
 		if (ige.isServer) {
 			this.addComponent(IgePathComponent);
+            this.addComponent(IgePathComponentNew);
 		}
+
 		self.mouseUp(function(){
             //console.log('Se ha pulsado sobre CharacterContainer '+self.id());
             ige.network.send('touchCharacterContainer', self.id());
         });
 		// Define the data sections that will be included in the stream
-		this.streamSections(['transform', 'direction','chat','health']);
+		this.streamSections(['transform', 'direction','chat','health','customanim','playernames']);
 	},
 	
 	/**
@@ -104,6 +124,7 @@ var CharacterContainer = IgeEntity.extend({
 				}
 			} else {
 				// Return current data
+                this._streamDir;
 				return this._streamDir;
 			}
 		} else if (sectionId === 'chat'){
@@ -113,7 +134,7 @@ var CharacterContainer = IgeEntity.extend({
 					this._streamChat = data;
 				}
 				else{
-					return this._streamChat;
+                    this._streamChat = '';
 				}
 			}
 			else {
@@ -121,8 +142,41 @@ var CharacterContainer = IgeEntity.extend({
 				return this._streamChat;
 			}
 
-		}
-		else if (sectionId === 'health'){
+		} else if (sectionId === 'customanim'){
+
+            if (!ige.isServer) {
+                if (data) {
+                    this._streamCustomanim = data;
+                }
+                else{
+                    this._streamCustomanim = false;
+                    //return this._streamCustomanim;
+                }
+            }
+            else {
+                // Return current data
+                this._streamCustomanim;
+                return this._streamCustomanim;
+            }
+
+        } else if (sectionId === 'playernames'){
+
+            if (!ige.isServer) {
+                if (data) {
+                    this._streamPlayernames = data;
+                }
+                else{
+                    this._streamPlayernames = false;
+                    //return this._streamCustomanim;
+                }
+            }
+            else {
+                // Return current data
+                this._streamPlayernames;
+                return this._streamPlayernames;
+            }
+
+        } else if (sectionId === 'health'){
 
 			if (!ige.isServer) {
 				if (data) {
@@ -153,6 +207,10 @@ var CharacterContainer = IgeEntity.extend({
 			// direction - this variable is actually streamed to the client
 			// when it's value changes!
 			this._streamDir = this.path.currentDirection();
+            if(!this._streamDir){
+                this._streamDir = this.pathnew.getDirection();
+            }
+            //this._streamCustomanim = false;
 		} else {
 
 			// Set the depth to the y co-ordinate which basically
@@ -162,13 +220,28 @@ var CharacterContainer = IgeEntity.extend({
 			var message = this._streamChat;
 			if(message) {
 				this.chatBar.width(message.length * 10);
+                this.chatBar.height(11);
 				this.chatBar.translateTo(-((message.length * 10) / 2), -75, 1);
 				this.sayText = message;
-			}
+			}else{
+                this.chatBar.width(0);
+                this.chatBar.height(0);
+                this.sayText = '';
+            }
+            var playerNames = this._streamPlayernames;
+            if(playerNames){
+                this.nickname = playerNames;
+            }
 			var health = this._streamHealth;
 			if(health){
 				this.currentHealth = health;
 			}
+            var customAnim = this._streamCustomanim;
+            if(customAnim && !this.character.animation.playing()){
+                console.log(customAnim);
+                this.character.animation.start(customAnim);
+                this._streamCustomanim = false;
+            }
 
 			if (this._streamDir) {
 				if ((this._streamDir !== this._currentDir || !this.character.animation.playing())) {
@@ -207,7 +280,7 @@ var CharacterContainer = IgeEntity.extend({
 					}
 				}
 			} else {
-				this.character.animation.stop();
+				//this.character.animation.stop();
 			}
 		}
 		

@@ -8,6 +8,7 @@ var igeCoreConfig = {
 		['csap', 'IgeEventingClass', 'core/IgeEventingClass.js'],
 		/* Data Classes */
 		['csap', 'IgePoint', 'core/IgePoint.js'],
+        ['csap', 'IgePoint3d', 'core/IgePoint3d.js'],
 		['csap', 'IgePoly2d', 'core/IgePoly2d.js'],
 		['csap', 'IgeRect', 'core/IgeRect.js'],
 		['csap', 'IgeMatrix2d', 'core/IgeMatrix2d.js'],
@@ -17,6 +18,7 @@ var igeCoreConfig = {
 		['csap', 'IgeVelocityComponent', 'components/IgeVelocityComponent.js'],
 		['csap', 'IgeTweenComponent', 'components/IgeTweenComponent.js'],
 		['csap', 'IgePathComponent', 'components/IgePathComponent.js'],
+        ['csap', 'IgePathComponentNew', 'components/IgePathComponentNew.js'],
 		['csap', 'IgeInputComponent', 'components/IgeInputComponent.js'],
 		['csap', 'IgeMousePanComponent', 'components/IgeMousePanComponent.js'],
 		['csap', 'IgeMouseZoomComponent', 'components/IgeMouseZoomComponent.js'],
@@ -67,6 +69,7 @@ var igeCoreConfig = {
 		['csap', 'IgeDummyContext', 'core/IgeDummyContext.js'],
 		['csap', 'IgePathNode', 'core/IgePathNode.js'],
 		['csap', 'IgePathFinder', 'core/IgePathFinder.js'],
+        ['csap', 'IgePathFinder2', 'core/IgePathFinder2.js'],
 		['csap', 'IgeTween', 'core/IgeTween.js'],
 		['csap', 'IgeTexture', 'core/IgeTexture.js'],
 		['csap', 'IgeCellSheet', 'core/IgeCellSheet.js'],
