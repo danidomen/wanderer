@@ -5,7 +5,8 @@ var config = {
 		{name: 'CharacterContainer', path: './gameClasses/CharacterContainer'},
 		{name: 'PlayerComponent', path: './gameClasses/PlayerComponent'},
         {name: 'GameItem', path: './gameClasses/GameItem'},
-        {name: 'GameObject', path: './gameClasses/GameObject'}
+        {name: 'GameObject', path: './gameClasses/GameObject'},
+        {name: 'NPCComponent', path: './gameClasses/NPCComponent'}
 	],
     db: {
         type: 'mysql',

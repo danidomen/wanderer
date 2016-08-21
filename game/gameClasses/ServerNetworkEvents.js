@@ -82,6 +82,7 @@ var ServerNetworkEvents = {
 
             ige.server.players['npc_'+clientId] = new CharacterContainer('npc_'+clientId)
                 .addComponent(PlayerComponent)
+                .addComponent(NPCComponent)
                 //.mode(1)
                 .streamMode(1)
                 .mount(ige.server.foregroundMap)
@@ -115,22 +116,7 @@ var ServerNetworkEvents = {
                 .drawPath(true); // Enable debug drawing the paths
                 //.drawPathGlow(true); // Enable path glowing (eye candy)
 
-            // Register some event listeners for the path (these are for debug console logging so you
-            // know what events are emitted by the path component and what they mean)
-            ige.server.players['npc_'+clientId].pathnew.on('started', function () { console.log('Pathing started...'); });
-            ige.server.players['npc_'+clientId].pathnew.on('stopped', function () { console.log('Pathing stopped.'); });
-            ige.server.players['npc_'+clientId].pathnew.on('cleared', function () { console.log('Path data cleared.'); });
-            ige.server.players['npc_'+clientId].pathnew.on('pointComplete', function () { console.log('Path point reached...'); });
-            ige.server.players['npc_'+clientId].pathnew.on('pathComplete', function () {ige.server.players['npc_'+clientId].pathnew
-                .set(0, 0, 0, 0, 4, 0)
-                .add(2, 4, 0)
-                .add(5, 4, 0)
-                .add(6, 2, 0)
-                .add(0, 0, 0)
-                .speed(2)
-                .start();
-                console.log('Path completed...'); });
-            ige.server.players['npc_'+clientId].pathnew.on('traversalComplete', function () { this._entity.animation.stop(); console.log('Traversal of all paths completed.'); });
+
 
             // Some error events from the path finder (these are for debug console logging so you
             // know what events are emitted by the path finder class and what they mean)
