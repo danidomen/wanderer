@@ -47,7 +47,7 @@ var NPCComponent = IgeEntity.extend({
         this._entity.pathnew.on('started', function () { console.log('Pathing started...'); });
         this._entity.pathnew.on('stopped', function () { console.log('Pathing stopped.'); });
         this._entity.pathnew.on('cleared', function () { console.log('Path data cleared.'); });
-        this._entity.pathnew.on('pointComplete', function () { console.log('Path point reached...'); });
+        this._entity.pathnew.on('pointComplete', function () { console.log('Path point reached...'); console.log(selfEntity.pathnew) });
         this._entity.pathnew.on('pathComplete', function () {
             selfEntity.pathnew
             .set(0, 0, 0, 0, 4, 0)

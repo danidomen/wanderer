@@ -86,7 +86,7 @@ var ServerNetworkEvents = {
                 //.mode(1)
                 .streamMode(1)
                 .mount(ige.server.foregroundMap)
-                .translateTo(200, 200,0);
+                .translateTo(400, 400,0);
 
             /*newPath = ige.server.pathFinder.aStar(ige.server.collisionMap, new IgePoint(5, 5, 0), new IgePoint(18, 18, 0), function (tileData, tileX, tileY) {
                 // If the map tile data is set to 1, don't allow a path along it
@@ -133,7 +133,7 @@ var ServerNetworkEvents = {
                 .add(5, 4, 0)
                 .add(6, 2, 0)
                 .add(0, 0, 0)
-                .speed(2)
+                .speed(1)
                 .start();
 
             var playerEntity = ige.server.players[clientId];
@@ -241,7 +241,7 @@ var ServerNetworkEvents = {
                             newPath = ige.server.pathFinder.aStar(ige.server.collisionMap, startTile, new IgePoint(parseInt(b.link.x), parseInt(b.link.y), 0), function (tileData, tileX, tileY) {
                                 // If the map tile data is set to 1, don't allow a path along it
                                 return tileData !== 1;
-                            }, true, true, false,true);
+                            }, true, true, false,false);
 
 
                             if (newPath.length > 0) {
@@ -325,7 +325,7 @@ var ServerNetworkEvents = {
             newPath = ige.server.pathFinder.aStar(ige.server.collisionMap, startTile, new IgePoint(parseInt(data[0]), parseInt(data[1]), 0), function (tileData, tileX, tileY) {
                 // If the map tile data is set to 1, don't allow a path along it
                 return tileData !== 1;
-            }, true, true, false, true);
+            }, true, true, false, false); //El último parametro es para meter las 6 direcciones
 
 
             if (newPath.length > 0) {
@@ -454,8 +454,10 @@ var ServerNetworkEvents = {
             // Create the new building entity
             //console.log(GameObject.Bank.classId);
             ige.server.collisionMap.occupyTile(item.tileX, item.tileY, 3, 3, 1);
-            ige.server.collisionMap.occupyTile(1, 4, 3, 3, 1);
-            ige.server.collisionMap.occupyTile(2, 2, 3, 3, 1);
+
+            //Otros puntos bloqueados
+            //ige.server.collisionMap.occupyTile(1, 4, 3, 3, 1);
+            //ige.server.collisionMap.occupyTile(2, 2, 3, 3, 1);
             /*entity = ige.server.createTemporaryItem(item.classId)
                 .data('tileX', item.tileX)
                 .data('tileY', item.tileY)
